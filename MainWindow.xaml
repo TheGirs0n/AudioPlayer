@@ -1,0 +1,21 @@
+﻿<Window x:Class="AudioPlayer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AudioPlayer"
+        mc:Ignorable="d"
+        Title="MusicPlayer" Height="140" Width="500" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
+    <Grid ShowGridLines="True">
+        <TextBox Name = "SongName" Margin = "129,35,0,64" BorderThickness = "0,0,0,0" Height = "25" Width = "250" HorizontalAlignment = "Left" FontSize = "10">Song Name</TextBox>
+        <Button Name = "Play" Margin = "15,55,410,19" Width = "75" Height = "50" Opacity = "0.75" Click = "PlayButton_Click">
+            Play
+        </Button>
+        <Button Name = "PreviosSong" Margin = "200,80,275,19" Width = "25" Height = "25" Click = "PreviosSong_Click">b</Button>
+        <Button Name = "NextSong" Margin = "275,80,200,19" Width = "25" Height = "25" Click = "NextSong_Click">s</Button>
+        <Button Name = "RepeatStatus" Width = "25" Height = "25" Margin = "129,80,346,19">r</Button>
+        <Button Name = "SongsList" Width = "25" Height = "25" Margin = "354,80,121,19" Click = "SongList_Click">l</Button>
+        <Button Name = "AddNewSong" Width = "25" Height = "25" Margin = "15,10,460,89" Click = "AddNewSong_Click"></Button>
+        <StatusBar Margin = "129,65,121,49" Height = "10" Width = "250"/>
+    </Grid>
+</Window>
