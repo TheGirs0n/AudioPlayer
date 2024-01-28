@@ -8,14 +8,18 @@
         Title="MusicPlayer" Height="140" Width="500" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
     <Grid ShowGridLines="True">
         <TextBox Name = "SongName" Margin = "129,35,0,64" BorderThickness = "0,0,0,0" Height = "25" Width = "250" HorizontalAlignment = "Left" FontSize = "10">Song Name</TextBox>
-        <Button Name = "Play" Margin = "15,55,410,19" Width = "75" Height = "50" Opacity = "0.75" Click = "PlayButton_Click">
-            Play
+        <Button Name = "Play" Margin = "15,55,434,19" Height = "50" Opacity = "0.75" Click = "PlayButton_Click" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}">
+            <Image Source = "/play.png" Width="46" Height="46"/>
         </Button>
-        <Button Name = "PreviosSong" Margin = "200,80,275,19" Width = "25" Height = "25" Click = "PreviosSong_Click">b</Button>
-        <Button Name = "NextSong" Margin = "275,80,200,19" Width = "25" Height = "25" Click = "NextSong_Click">s</Button>
-        <Button Name = "RepeatStatus" Width = "25" Height = "25" Margin = "129,80,346,19">r</Button>
-        <Button Name = "SongsList" Width = "25" Height = "25" Margin = "354,80,121,19" Click = "SongList_Click">l</Button>
+        <Button Name = "PreviosSong" Margin = "200,80,275,19" Width = "25" Height = "25" Click = "PreviosSong_Click" Foreground="{x:Null}" Background="{x:Null}" BorderBrush="{x:Null}">
+            <Image Source = "/back.png" Width="20" Height="20" Opacity="0.8"/>
+        </Button>
+        <Button Name = "NextSong" Margin = "275,80,200,19" Width = "25" Height = "25" Click = "NextSong_Click" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}">
+            <Image Source = "/next.png" Width="20" Height="20" Opacity="0.8"/>
+        </Button>
+        <Button Name = "RepeatStatus" Width = "25" Height = "25" Margin = "129,80,346,19" Foreground="{x:Null}" BorderBrush="{x:Null}" Background="Black">r</Button>
+        <Button Name = "SongsList" Width = "25" Height = "25" Margin = "354,80,121,19" Click = "SongList_Click" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="#FFDDDDDD">l</Button>
         <Button Name = "AddNewSong" Width = "25" Height = "25" Margin = "15,10,460,89" Click = "AddNewSong_Click"></Button>
-        <StatusBar Margin = "129,65,121,49" Height = "10" Width = "250"/>
+        <StatusBar Margin = "129,65,121,49" Height = "10" Width = "250" Background="Black"/>
     </Grid>
 </Window>
