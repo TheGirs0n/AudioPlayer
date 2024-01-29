@@ -21,8 +21,12 @@ namespace AudioPlayer.CS_Files
             FileInfo[] musics = musicDirectory.GetFiles();
 
             SongsList = new string[musics.Length];
+
             for (int j = 0; j < musics.Length; j++)
-                SongsList[j] = musics[j].Name;              
+            {
+                SongsList[j] = musics[j].Name;
+                SongsList[j] = SongsList[j].Replace('_', ' ');
+            }      
                         
             return SongsList;
         }

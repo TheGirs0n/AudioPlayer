@@ -1,7 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Security.Permissions;
-using System.Web;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
@@ -10,6 +8,14 @@ namespace AudioPlayer.CS_Files
     public class MusicPlayer
     {
         public FileInfo[] GetFiles() => MusicDirectory.GetFilesInMusicDirectory();
+
+        public static MediaTimeline InitializeTimeLine(MediaPlayer audioPlayer) => new MediaTimeline(new Uri(audioPlayer.Source.ToString()));
+
+        public static void GetSongTimeLine(MediaPlayer audioPlayer)
+        {
+            var timeline = InitializeTimeLine(audioPlayer);
+
+        }
 
         public string[] GetSongs(FileInfo[] files)
         {
@@ -29,19 +35,16 @@ namespace AudioPlayer.CS_Files
 
             if (status == "Repeat" || status == "InfinityRepeat")
             {
-                var timeline = new MediaTimeline(new Uri(audioPlayer.Source.ToString()));
-                timeline.RepeatBehavior = RepeatBehavior.Forever;
-                audioPlayer.Clock = timeline.CreateClock();
-                audioPlayer.Clock.Controller.Begin();
+                //var timeline = InitializeTimeLine(audioPlayer);
+                //timeline.RepeatBehavior = RepeatBehavior.Forever;
+                //audioPlayer.Clock = timeline.CreateClock();
+                //audioPlayer.Clock.Controller.Begin();
             }
             else
                 audioPlayer.Play();
 
             return currentsongId;
         }
-
-       // public void Pause() => audioPlayer.Pause();
-        
 
         public int PlayNext(int currentsongId, string[] songs, MediaPlayer audioPlayer, string status = "")
         {

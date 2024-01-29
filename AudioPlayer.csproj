@@ -110,6 +110,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CS-Files\Converter.cs" />
+    <Compile Include="CS-Files\GetSongName.cs" />
     <Compile Include="CS-Files\MusicDirectory.cs" />
     <Compile Include="CS-Files\SongList.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -174,6 +175,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="play.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="sound.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="library.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="plussound.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

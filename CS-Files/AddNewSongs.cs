@@ -59,6 +59,7 @@ namespace AudioPlayer.CS_Files
                 catch (Exception ex)
                 {
                     fileInfo[j].CopyTo(musicDirectoryPath, true);
+                    MessageBox.Show(ex.Message);
                 }
             }                                                  
         }        

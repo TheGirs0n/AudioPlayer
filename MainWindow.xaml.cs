@@ -35,6 +35,10 @@ namespace AudioPlayer
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
             currentsongId = audioPlayer.Play(currentsongId, songs, mediaPlayer);
+            //MusicPlayer.InitializeTimeLine(mediaPlayer);
+            SongName.Text = GetSongName.GetNameOfSong(currentsongId);
+            //SongTimeLine.
+            
             // Брать набор музыки из файла
             // Загружать через Load()/LoadAsync()
             // Играть через Play()/PlaySync()
@@ -58,11 +62,15 @@ namespace AudioPlayer
         private void NextSong_Click(object sender, RoutedEventArgs e)
         {
             currentsongId = audioPlayer.PlayNext(currentsongId, songs, mediaPlayer);
+            //MusicPlayer.InitializeTimeLine(mediaPlayer);
+            SongName.Text = GetSongName.GetNameOfSong(currentsongId);
         }
 
         private void PreviosSong_Click(object sender, RoutedEventArgs e)
         {
             currentsongId = audioPlayer.PlayPrevios(currentsongId, songs, mediaPlayer);
+            //MusicPlayer.InitializeTimeLine(mediaPlayer);
+            SongName.Text = GetSongName.GetNameOfSong(currentsongId);
         }
     }
 }
