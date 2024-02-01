@@ -14,7 +14,7 @@ namespace AudioPlayer.CS_Files
         public static void GetSongTimeLine(MediaPlayer audioPlayer)
         {
             var timeline = InitializeTimeLine(audioPlayer);
-
+            var line = timeline.Duration;
         }
 
         public string[] GetSongs(FileInfo[] files)

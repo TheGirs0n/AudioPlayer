@@ -37,13 +37,14 @@ namespace AudioPlayer.CS_Files
             if (result == true)
             {
                 for (int i = 0; i < dialog.FileNames.Count(); i++)
-                    MessageBox.Show(dialog.FileNames[i]);              
+                    MessageBox.Show(dialog.FileNames[i]);
             }
+            else
+                MessageBox.Show("No song is choice");
             return bufferSongs;
         }
         public void SaveFiles(string[] files) //string[] files
         {
-
             DirectoryInfo musicDirectory = MusicDirectory.GetMusicDirectory();
             FileInfo[] fileInfo = new FileInfo[files.Length];
 
