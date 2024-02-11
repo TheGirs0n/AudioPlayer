@@ -38,12 +38,5 @@ namespace AudioPlayer.CS_Files
 
             return musics;
         }
-
-        public static string MusicDirectoryToString()
-        {
-            DirectoryInfo directory = GetMusicDirectory();
-
-            return directory.FullName;
-        }
     }
 }

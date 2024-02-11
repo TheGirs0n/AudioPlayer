@@ -7,15 +7,15 @@ namespace AudioPlayer.CS_Files
 {
     public class MusicPlayer
     {
-        public FileInfo[] GetFiles() => MusicDirectory.GetFilesInMusicDirectory();
+        //public static FileInfo[] GetFiles() => MusicDirectory.GetFilesInMusicDirectory();
 
-        public static MediaTimeline InitializeTimeLine(MediaPlayer audioPlayer) => new MediaTimeline(new Uri(audioPlayer.Source.ToString()));
+        //public static MediaTimeline InitializeTimeLine(MediaPlayer audioPlayer) => new MediaTimeline(new Uri(audioPlayer.Source.ToString()));
 
-        public static void GetSongTimeLine(MediaPlayer audioPlayer)
-        {
-            var timeline = InitializeTimeLine(audioPlayer);
-            var line = timeline.Duration;
-        }
+        //public static void GetSongTimeLine(MediaPlayer audioPlayer)
+        //{
+        //    var timeline = InitializeTimeLine(audioPlayer);
+        //    var line = timeline.Duration;
+        //}
 
         public string[] GetSongs(FileInfo[] files)
         {

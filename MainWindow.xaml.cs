@@ -16,7 +16,7 @@ namespace AudioPlayer
         int currentsongId;
         MusicPlayer audioPlayer;
         MediaPlayer mediaPlayer;
-        string[] songs;
+        string[] _songs;
 
         public MainWindow()
         {
@@ -29,44 +29,68 @@ namespace AudioPlayer
         {
             audioPlayer = new MusicPlayer();
             mediaPlayer = new MediaPlayer();
+            VolumeSlider.Value = 50;
             mediaPlayer.Volume = VolumeSlider.Value;
+            SongParametrs();
         }
 
-        public void InitializeSongs() => songs = audioPlayer.GetSongs(audioPlayer.GetFiles());
+        public void InitializeSongs() => _songs = audioPlayer.GetSongs(MusicDirectory.GetFilesInMusicDirectory());
         
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            currentsongId = audioPlayer.Play(currentsongId, songs, mediaPlayer);
-            SongParametrs();           
+            try
+            {
+                currentsongId = audioPlayer.Play(currentsongId, _songs, mediaPlayer);
+                SongParametrs();              
+            }
+            catch(Exception ex) 
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void AddNewSong_Click(object sender, RoutedEventArgs e)
         {
             AddNewSongs newSongs = new AddNewSongs();
-            if(newSongs.GetFiles().Length > 0)
-                newSongs.SaveFiles(newSongs.GetFiles());        
+            string[] songs = newSongs.GetFiles();
+
+            if(songs.Length > 0)
+                newSongs.SaveFiles(songs);
+
+            _songs = SongList.GetSongList();
         }
 
         private void SongList_Click(object sender, RoutedEventArgs e) 
-        {
-            SongList songList = new SongList();
-            string[] songs = songList.GetSongList();
-
-            for (int i = 0; i < songs.Length; i++)
-                MessageBox.Show(songs[i]);
+        {           
+            for (int i = 0; i < _songs.Length; i++)
+                MessageBox.Show(_songs[i]);
         }
 
         private void NextSong_Click(object sender, RoutedEventArgs e)
         {
-            currentsongId = audioPlayer.PlayNext(currentsongId, songs, mediaPlayer);
-            SongParametrs();
+            try
+            {
+                currentsongId = audioPlayer.PlayNext(currentsongId, _songs, mediaPlayer);
+                SongParametrs();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void PreviosSong_Click(object sender, RoutedEventArgs e)
         {
-            currentsongId = audioPlayer.PlayPrevios(currentsongId, songs, mediaPlayer);
-            SongParametrs();
+            try
+            {
+                currentsongId = audioPlayer.PlayPrevios(currentsongId, _songs, mediaPlayer);
+                SongParametrs();
+            }
+            catch (Exception ex) 
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -74,18 +98,18 @@ namespace AudioPlayer
             mediaPlayer.Volume = (double)VolumeSlider.Value / 100;
         }
 
-        void SongParametrs()
-        {
+        private void SongParametrs()
+        {           
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
             timer.Start();
-            //MusicPlayer.InitializeTimeLine(mediaPlayer);
-            SongName.Text = GetSongName.GetNameOfSong(currentsongId);
-            
+
+            SongName.Text = GetSongName.GetNameOfSong(currentsongId);   
+
         }
 
-        void timer_Tick(object sender, EventArgs e)
+        private void timer_Tick(object sender, EventArgs e)
         {
             if (mediaPlayer.Source != null)
             {
@@ -94,7 +118,12 @@ namespace AudioPlayer
             }
             else
                 SongName.Text = "No song selected...";
-        }
 
+            if (mediaPlayer.NaturalDuration.HasTimeSpan && (mediaPlayer.Position == mediaPlayer.NaturalDuration.TimeSpan))
+            {
+                currentsongId = audioPlayer.PlayNext(currentsongId, _songs, mediaPlayer);
+                SongName.Text = GetSongName.GetNameOfSong(currentsongId);
+            }
+        }
     }
 }

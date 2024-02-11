@@ -47,7 +47,7 @@
         <TextBlock Name = "StartTimer" Margin="129,53,341,61" Height="10" Width="30" FontSize="9" HorizontalAlignment="Left"/>
         <TextBlock Name = "EndTimer" Margin="0,53,121,61" Width="30" Height="10" FontSize="9" HorizontalAlignment="Right" TextAlignment="Right" />
         <StatusBar Name = "SongTimeLine" Margin = "129,65,121,49" Height = "10" Width = "250" Background="Black" Opacity="0.8"/>
-        <Image Name = "SoundPic" Margin="440,40,40,64" Width="20" Height="20" Source="/sound.png" Opacity="0.8"></Image>
-        <Slider Name = "VolumeSlider" ValueChanged = "VolumeSlider_ValueChanged" Margin="400,60,0,0" AutoToolTipPlacement="TopLeft" Height="20" RenderTransformOrigin="0.492,0.68" VerticalAlignment="Top" Width="100" Maximum="100"></Slider>
+        <Image Name = "SoundPic" Margin="435,40,45,64" Width="20" Height="20" Source="/sound.png" Opacity="0.8"></Image>
+        <Slider Name = "VolumeSlider" ValueChanged = "VolumeSlider_ValueChanged" Margin="400,60,10,0" AutoToolTipPlacement="TopLeft" Height="20" RenderTransformOrigin="0.492,0.68" VerticalAlignment="Top" Maximum="100"/>
     </Grid>
 </Window>

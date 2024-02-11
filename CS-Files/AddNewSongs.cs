@@ -1,11 +1,7 @@
-﻿using AudioPlayer.CS_Files;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace AudioPlayer.CS_Files
@@ -15,8 +11,7 @@ namespace AudioPlayer.CS_Files
         public string[] GetFiles()
         {
             var dialog = new OpenFileDialog();
-            dialog.FileName = "Empty";
-            dialog.DefaultExt = ".wav";
+            dialog.DefaultExt = ".mp3";
             dialog.Multiselect = true;
             dialog.Filter = "Audio Formats|*.wav;*.flac;*.mp3;*.wma;";
 
@@ -24,6 +19,10 @@ namespace AudioPlayer.CS_Files
             bool? result = dialog.ShowDialog();
 
             bufferSongs = dialog.FileNames;
+            for (int i = 0; i < bufferSongs.Length; i++)
+                if (bufferSongs[i] == "")
+                    result = false;
+
             if (!dialog.CheckPathExists)
             {
                 MessageBox.Show("No Path with this name!");
@@ -34,13 +33,14 @@ namespace AudioPlayer.CS_Files
                 MessageBox.Show("No File with this name!");
             };
 
-            if (result == true)
+            if (result == true && bufferSongs.Length >= 1)
             {
                 for (int i = 0; i < dialog.FileNames.Count(); i++)
                     MessageBox.Show(dialog.FileNames[i]);
             }
             else
                 MessageBox.Show("No song is choice");
+
             return bufferSongs;
         }
         public void SaveFiles(string[] files) //string[] files

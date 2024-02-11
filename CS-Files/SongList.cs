@@ -1,24 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace AudioPlayer.CS_Files
 {
     public class SongList
     {
-        private string[] SongsList { get; set; }
+        private static string[] SongsList { get; set; }
 
-        public void AddSongs(string[] songs) => SongsList = songs;
+       // public void AddSongs(string[] songs) => SongsList = songs;
 
-        public string[] GetSongList()
+        public static string[] GetSongList()
         {
-            var musicDirectory = MusicDirectory.GetMusicDirectory();
-            FileInfo[] musics = musicDirectory.GetFiles();
+            //var musicDirectory = MusicDirectory.GetMusicDirectory();
+            FileInfo[] musics = MusicDirectory.GetFilesInMusicDirectory();
 
             SongsList = new string[musics.Length];
 
