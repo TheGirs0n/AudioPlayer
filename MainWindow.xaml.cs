@@ -1,5 +1,6 @@
 ﻿using AudioPlayer.CS_Files;
 using System;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Media;
 using System.Windows;
@@ -17,6 +18,7 @@ namespace AudioPlayer
         MusicPlayer audioPlayer;
         MediaPlayer mediaPlayer;
         string[] _songs;
+        StatusSong statusSong = StatusSong.Standart;
 
         public MainWindow()
         {
@@ -113,17 +115,51 @@ namespace AudioPlayer
         {
             if (mediaPlayer.Source != null)
             {
-                StartTimer.Text = mediaPlayer.Position.ToString(@"mm\:ss");
-                EndTimer.Text = mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss");
+                try
+                {
+                    StartTimer.Text = mediaPlayer.Position.ToString(@"mm\:ss");
+                    EndTimer.Text = mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss");
+                }
+                catch (Exception) { }
             }
             else
                 SongName.Text = "No song selected...";
 
             if (mediaPlayer.NaturalDuration.HasTimeSpan && (mediaPlayer.Position == mediaPlayer.NaturalDuration.TimeSpan))
             {
-                currentsongId = audioPlayer.PlayNext(currentsongId, _songs, mediaPlayer);
-                SongName.Text = GetSongName.GetNameOfSong(currentsongId);
+                if (statusSong == StatusSong.RepeatSong)
+                {
+                    currentsongId = audioPlayer.Play(currentsongId, _songs, mediaPlayer);
+                    SongName.Text = GetSongName.GetNameOfSong(currentsongId);
+                }
+                else 
+                {
+                    currentsongId = audioPlayer.PlayNext(currentsongId, _songs, mediaPlayer);
+                    SongName.Text = GetSongName.GetNameOfSong(currentsongId);
+                }
             }
         }
+
+        private void RepeatStatus_Click(object sender, RoutedEventArgs e)
+        {
+            if (statusSong != StatusSong.RepeatSong)
+                UpdateStatusSong(++statusSong);
+            else
+                UpdateStatusSong(StatusSong.Standart);
+        }
+        
+
+        void UpdateStatusSong(StatusSong newsongStatus)
+        {
+            statusSong = newsongStatus;
+            MessageBox.Show("New Repeat Status is: " + $" {statusSong}");
+        }
+    }
+
+    public enum StatusSong
+    {
+        Standart = 0, 
+        RepeatPlaylist = 1,
+        RepeatSong = 2
     }
 }

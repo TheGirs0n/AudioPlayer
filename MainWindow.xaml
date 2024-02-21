@@ -26,7 +26,7 @@
             </Button.ToolTip>
             <Image Source = "/next.png" Width="20" Height="20" Opacity="0.8" AutomationProperties.HelpText="Play next song"/>
         </Button>
-        <Button Name = "RepeatStatus" Width = "25" Height = "25" Margin = "129,80,346,19" Foreground="{x:Null}" BorderBrush="{x:Null}" Background="Black" Opacity="0.8" AutomationProperties.HelpText="Straight, Repeat Playlist, RepeatThis">
+        <Button Name = "RepeatStatus" Width = "25" Height = "25" Margin = "129,80,346,19" Foreground="{x:Null}" BorderBrush="{x:Null}" Background="Black" Opacity="0.8" AutomationProperties.HelpText="Straight, Repeat Playlist, RepeatThis" Click="RepeatStatus_Click">
             <Button.ToolTip>
                 <ToolTip>Music goes Straight/RepeatPlaylist/RepeatThis</ToolTip>
             </Button.ToolTip>
