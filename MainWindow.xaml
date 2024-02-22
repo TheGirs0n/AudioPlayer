@@ -8,11 +8,17 @@
         Title="MusicPlayer" Height="140" Width="500" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
     <Grid ShowGridLines="True">
         <TextBox Name = "SongName" Margin = "129,23,0,76" BorderThickness = "0,0,0,0" Height = "25" Width = "250" HorizontalAlignment = "Left" FontSize = "10">Play something!</TextBox>
-        <Button Name = "Play" Margin = "15,55,434,19" Height = "50" Opacity = "0.75" Click = "PlayButton_Click" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}">
+        <Button Name = "Play" Margin = "15,55,434,19" Height = "50" Click = "PlayButton_Click" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}">
             <Button.ToolTip>
-                <ToolTip>To play/stop music</ToolTip>
+                <ToolTip>To play music</ToolTip>
             </Button.ToolTip>
-            <Image Name="Play_Stop_Image" Source = "/play.png" Width="46" Height="46" AutomationProperties.HelpText="To play/stop music"/>
+            <Image Name="Play_Image" Source = "/play.png" Width="46" Height="46" AutomationProperties.HelpText="To play/stop music" Opacity="0.75"/>
+        </Button>
+        <Button Name = "Stop" Margin = "15,55,434,19" Height = "50" Click = "StopButton_Click" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" IsEnabled="False" Visibility="Hidden">
+            <Button.ToolTip>
+                <ToolTip>To stop music</ToolTip>
+            </Button.ToolTip>
+            <Image Name="Stop_Image" Source = "/pause.png" Width="46" Height="46" AutomationProperties.HelpText="To play/stop music" IsEnabled="False" Visibility="Hidden" Opacity="0.75"/>
         </Button>
         <Button Name = "PreviosSong" Margin = "200,80,275,19" Width = "25" Height = "25" Click = "PreviosSong_Click" Foreground="{x:Null}" Background="{x:Null}" BorderBrush="{x:Null}" AutomationProperties.HelpText="Play previos song">
             <Button.ToolTip>
