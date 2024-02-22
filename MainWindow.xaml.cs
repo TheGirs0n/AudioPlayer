@@ -53,17 +53,7 @@ namespace AudioPlayer
 
             SongParametrs();
 
-            if (mediaPlayer.Source != null)
-            {
-                Play.Visibility = Visibility.Hidden;
-                Play_Image.Visibility = Visibility.Hidden;
-                Play.IsEnabled = false;
-
-                Stop.Visibility = Visibility.Visible;
-                Stop_Image.Visibility = Visibility.Visible;
-                Stop.IsEnabled = true;
-            }
-            
+            ChangePlayerStatus(PlayerStatus.Play);
         }
         /// <summary>
         /// Стоп
