@@ -38,7 +38,7 @@ namespace AudioPlayer
         }
 
         public void InitializeSongs() => _songs = audioPlayer.GetSongs(MusicDirectory.GetFilesInMusicDirectory());
-        
+
         /// <summary>
         /// Воспроизведение
         /// </summary>
@@ -46,31 +46,14 @@ namespace AudioPlayer
         /// <param name="e"></param>
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                //mediaPlayer.Position = currentPosition;
-                if(currentPosition == TimeSpan.Zero)
-                    currentsongId = audioPlayer.Play(currentsongId, _songs, mediaPlayer);
-                else
-                    currentsongId = audioPlayer.Play(currentsongId, _songs, mediaPlayer, currentPosition);
+            if (currentPosition == TimeSpan.Zero)
+                currentsongId = audioPlayer.Play(currentsongId, _songs, mediaPlayer);
+            else
+                currentsongId = audioPlayer.Play(currentsongId, _songs, mediaPlayer, currentPosition);
 
-                SongParametrs();
+            SongParametrs();
 
-                if (mediaPlayer.Source != null)
-                {
-                    Play.Visibility = Visibility.Hidden;
-                    Play_Image.Visibility = Visibility.Hidden;
-                    Play.IsEnabled = false;
-
-                    Stop.Visibility = Visibility.Visible;
-                    Stop_Image.Visibility = Visibility.Visible;
-                    Stop.IsEnabled = true;
-                }
-            }
-            catch(Exception ex) 
-            {
-                MessageBox.Show(ex.Message);
-            }
+            ChangePlayerStatus(PlayerStatus.Play);
         }
         /// <summary>
         /// Стоп
@@ -79,24 +62,13 @@ namespace AudioPlayer
         /// <param name="e"></param>
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                currentPosition = mediaPlayer.Position;
-                mediaPlayer.Stop();       
-                mediaPlayer.Position = currentPosition;
 
-                Play.Visibility = Visibility.Visible;
-                Play_Image.Visibility = Visibility.Visible;
-                Play.IsEnabled = true;
+            currentPosition = mediaPlayer.Position;
+            mediaPlayer.Stop();
+            mediaPlayer.Position = currentPosition;
 
-                Stop.Visibility = Visibility.Hidden;
-                Stop_Image.Visibility = Visibility.Hidden;
-                Stop.IsEnabled = false;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            ChangePlayerStatus(PlayerStatus.Pause);
+
         }
         /// <summary>
         /// Добавление новых песен (.mp3)
@@ -108,7 +80,7 @@ namespace AudioPlayer
             AddNewSongs newSongs = new AddNewSongs();
             string[] songs = newSongs.GetFiles();
 
-            if(songs.Length > 0)
+            if (songs.Length > 0)
                 newSongs.SaveFiles(songs);
 
             _songs = SongList.GetSongList();
@@ -118,10 +90,10 @@ namespace AudioPlayer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SongList_Click(object sender, RoutedEventArgs e) 
-        {           
-            for (int i = 0; i < _songs.Length; i++)
-                MessageBox.Show(_songs[i]);
+        private void SongList_Click(object sender, RoutedEventArgs e)
+        {
+            SongListWindow songListWindow = new SongListWindow();
+            songListWindow.Show();
         }
         /// <summary>
         /// Следующая песня с текущими настройками повтора
@@ -130,15 +102,9 @@ namespace AudioPlayer
         /// <param name="e"></param>
         private void NextSong_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                currentsongId = audioPlayer.PlayNext(currentsongId, _songs, mediaPlayer);
-                SongParametrs();
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            ChangePlayerStatus(PlayerStatus.Play);
+            currentsongId = audioPlayer.PlayNext(currentsongId, _songs, mediaPlayer);
+            SongParametrs();
         }
         /// <summary>
         /// Предыдущая песня с текущими настройками повтора
@@ -147,15 +113,9 @@ namespace AudioPlayer
         /// <param name="e"></param>
         private void PreviosSong_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                currentsongId = audioPlayer.PlayPrevios(currentsongId, _songs, mediaPlayer);
-                SongParametrs();
-            }
-            catch (Exception ex) 
-            {
-                MessageBox.Show(ex.Message);
-            }
+            ChangePlayerStatus(PlayerStatus.Play);
+            currentsongId = audioPlayer.PlayPrevios(currentsongId, _songs, mediaPlayer);
+            SongParametrs();
         }
 
         private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -166,13 +126,13 @@ namespace AudioPlayer
         /// Настройки песни, вкл. при новой
         /// </summary>
         private void SongParametrs()
-        {           
+        {
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
             timer.Start();
 
-            SongName.Text = GetSongName.GetNameOfSong(currentsongId);   
+            SongName.Text = GetSongName.GetNameOfSong(currentsongId);
 
         }
 
@@ -180,12 +140,8 @@ namespace AudioPlayer
         {
             if (mediaPlayer.Source != null)
             {
-                try
-                {
-                    StartTimer.Text = mediaPlayer.Position.ToString(@"mm\:ss");
-                    EndTimer.Text = mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss");
-                }
-                catch (Exception) { }
+                StartTimer.Text = mediaPlayer.Position.ToString(@"mm\:ss");
+                EndTimer.Text = mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss");
             }
             else
                 SongName.Text = "No song selected...";
@@ -220,7 +176,7 @@ namespace AudioPlayer
             else
                 UpdateStatusSong(StatusSong.Standart);
         }
-        
+
         /// <summary>
         /// Изменение статуса повтора
         /// </summary>
@@ -231,12 +187,41 @@ namespace AudioPlayer
             MessageBox.Show("New Repeat Status is: " + $" {statusSong}");
         }
 
+        void ChangePlayerStatus(PlayerStatus playerStatus)
+        {
+            if (playerStatus == PlayerStatus.Play)
+            {
+                Play.Visibility = Visibility.Hidden;
+                Play_Image.Visibility = Visibility.Hidden;
+                Play.IsEnabled = false;
+
+                Stop.Visibility = Visibility.Visible;
+                Stop_Image.Visibility = Visibility.Visible;
+                Stop.IsEnabled = true;
+            }
+            else
+            {
+                Play.Visibility = Visibility.Visible;
+                Play_Image.Visibility = Visibility.Visible;
+                Play.IsEnabled = true;
+
+                Stop.Visibility = Visibility.Hidden;
+                Stop_Image.Visibility = Visibility.Hidden;
+                Stop.IsEnabled = false;
+            }
+        }
+
     }
 
     public enum StatusSong
     {
-        Standart = 0, 
+        Standart = 0,
         RepeatPlaylist = 1,
         RepeatSong = 2
+    }
+    public enum PlayerStatus
+    {
+        Play = 0,
+        Pause = 1
     }
 }

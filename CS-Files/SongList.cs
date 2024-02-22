@@ -12,7 +12,6 @@ namespace AudioPlayer.CS_Files
 
         public static string[] GetSongList()
         {
-            //var musicDirectory = MusicDirectory.GetMusicDirectory();
             FileInfo[] musics = MusicDirectory.GetFilesInMusicDirectory();
 
             SongsList = new string[musics.Length];
