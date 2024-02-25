@@ -19,7 +19,8 @@ namespace AudioPlayer
     /// Логика взаимодействия для SongListWindow.xaml
     /// </summary>
     public partial class SongListWindow : Window
-    {
+    { 
+
         public SongListWindow()
         {
             InitializeComponent();
