@@ -20,6 +20,7 @@ namespace AudioPlayer
         MediaPlayer mediaPlayer;
         string[] _songs;
         StatusSong statusSong = StatusSong.Standart;
+        DispatcherTimer timer = new DispatcherTimer();
 
         public MainWindow()
         {
@@ -34,7 +35,7 @@ namespace AudioPlayer
             mediaPlayer = new MediaPlayer();
             VolumeSlider.Value = 50;
             mediaPlayer.Volume = VolumeSlider.Value;
-            SongParametrs();
+            //SongParametrs();
         }
 
         public void InitializeSongs() => _songs = audioPlayer.GetSongs(MusicDirectory.GetFilesInMusicDirectory());
@@ -62,13 +63,11 @@ namespace AudioPlayer
         /// <param name="e"></param>
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
-
             currentPosition = mediaPlayer.Position;
             mediaPlayer.Stop();
             mediaPlayer.Position = currentPosition;
 
             ChangePlayerStatus(PlayerStatus.Pause);
-
         }
         /// <summary>
         /// Добавление новых песен (.mp3)
@@ -127,7 +126,7 @@ namespace AudioPlayer
         /// </summary>
         private void SongParametrs()
         {
-            DispatcherTimer timer = new DispatcherTimer();
+            //DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
             timer.Start();

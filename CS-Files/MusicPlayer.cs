@@ -30,7 +30,6 @@ namespace AudioPlayer.CS_Files
 
         public int Play(int currentsongId, string[] songs, MediaPlayer audioPlayer, TimeSpan position)
         {
-
             audioPlayer.Open(new Uri(songs[currentsongId], UriKind.Relative));
             audioPlayer.Position = position;
 
