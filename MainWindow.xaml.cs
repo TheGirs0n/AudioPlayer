@@ -195,10 +195,10 @@ namespace AudioPlayer
         {
             BitmapImage[] imageSource = new BitmapImage[4]
             {
-                new BitmapImage(new Uri("/fast-forward.png",UriKind.Relative)),
-                new BitmapImage(new Uri("/repeatPlaylist.png",UriKind.Relative)),
-                new BitmapImage(new Uri("/repeatSong.png",UriKind.Relative)),
-                new BitmapImage(new Uri("/random.png",UriKind.Relative))
+                new BitmapImage(new Uri("/Pictures/fast-forward.png",UriKind.Relative)),
+                new BitmapImage(new Uri("/Pictures/repeatPlaylist.png",UriKind.Relative)),
+                new BitmapImage(new Uri("/Pictures/repeatSong.png",UriKind.Relative)),
+                new BitmapImage(new Uri("/Pictures/random.png",UriKind.Relative))
             };
 
             if (statusSong != StatusSong.Random)

@@ -170,49 +170,34 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="play.png" />
+    <Resource Include="Pictures\back.png" />
+    <Resource Include="Pictures\next.png" />
+    <Resource Include="Pictures\pause.png" />
+    <Resource Include="Pictures\play.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="back.png" />
+    <Resource Include="Pictures\fast-forward.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="next.jpg" />
+    <Resource Include="Pictures\icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="next.png" />
+    <Resource Include="Pictures\library.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="back.jpg" />
+    <Resource Include="Pictures\plussound.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="play.jpg" />
+    <Resource Include="Pictures\random.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="sound.png" />
+    <Resource Include="Pictures\repeatPlaylist.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="library.png" />
+    <Resource Include="Pictures\repeatSong.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="plussound.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="pause.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="fast-forward.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="random.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="repeatPlaylist.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="repeatSong.png" />
+    <Resource Include="Pictures\sound.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
