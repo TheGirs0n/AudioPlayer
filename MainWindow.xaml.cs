@@ -5,6 +5,7 @@ using System.IO;
 using System.Media;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace AudioPlayer
@@ -20,7 +21,7 @@ namespace AudioPlayer
         MediaPlayer mediaPlayer;
         string[] _songs;
         StatusSong statusSong = StatusSong.Standart;
-        DispatcherTimer timer = new DispatcherTimer();
+        DispatcherTimer timer;
 
         public MainWindow()
         {
@@ -31,6 +32,7 @@ namespace AudioPlayer
 
         public void InitializeSound()
         {
+            timer = new DispatcherTimer();
             audioPlayer = new MusicPlayer();
             mediaPlayer = new MediaPlayer();
             VolumeSlider.Value = 50;
@@ -163,25 +165,55 @@ namespace AudioPlayer
                     {
                         mediaPlayer.Close();
                         SongName.Text = "Playlist is over";
+
+                        ChangePlayerStatus(PlayerStatus.Play);
                     }
+                    else
+                    {
+                        currentsongId = audioPlayer.PlayNext(currentsongId, _songs, mediaPlayer);
+                        SongName.Text = GetSongName.GetNameOfSong(currentsongId);
+                    }
+                }
+                else if (statusSong == StatusSong.Random)
+                {
+                    Random rnd = new Random();
+                    int newsongId;
+
+                    do
+                    {
+                        newsongId = rnd.Next(0, _songs.Length);
+                    }
+                    while (newsongId == currentsongId);
+
+                    currentsongId = audioPlayer.Play(newsongId, _songs, mediaPlayer);
+                    SongName.Text = GetSongName.GetNameOfSong(currentsongId);
                 }
             }
         }
 
         private void RepeatStatus_Click(object sender, RoutedEventArgs e)
         {
-            if (statusSong != StatusSong.RepeatSong)
-                UpdateStatusSong(++statusSong);
+            BitmapImage[] imageSource = new BitmapImage[4]
+            {
+                new BitmapImage(new Uri("/fast-forward.png",UriKind.Relative)),
+                new BitmapImage(new Uri("/repeatPlaylist.png",UriKind.Relative)),
+                new BitmapImage(new Uri("/repeatSong.png",UriKind.Relative)),
+                new BitmapImage(new Uri("/random.png",UriKind.Relative))
+            };
+
+            if (statusSong != StatusSong.Random)
+                UpdateStatusSong(++statusSong, imageSource[(int)statusSong]);
             else
-                UpdateStatusSong(StatusSong.Standart);
+                UpdateStatusSong(StatusSong.Standart, imageSource[0]);        
         }
 
         /// <summary>
         /// Изменение статуса повтора
         /// </summary>
         /// <param name="newsongStatus"></param>
-        void UpdateStatusSong(StatusSong newsongStatus)
+        void UpdateStatusSong(StatusSong newsongStatus, BitmapImage bitmapImage)
         {
+            RepeatImage.Source = bitmapImage;
             statusSong = newsongStatus;
             MessageBox.Show("New Repeat Status is: " + $" {statusSong}");
         }
@@ -216,7 +248,8 @@ namespace AudioPlayer
     {
         Standart = 0,
         RepeatPlaylist = 1,
-        RepeatSong = 2
+        RepeatSong = 2,
+        Random = 3
     }
     public enum PlayerStatus
     {
