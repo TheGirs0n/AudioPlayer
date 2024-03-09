@@ -7,8 +7,6 @@ namespace AudioPlayer.CS_Files
 {
     public class MusicPlayer
     {
-        //public static FileInfo[] GetFiles() => MusicDirectory.GetFilesInMusicDirectory();
-
         public string[] GetSongs(FileInfo[] files)
         {
             string[] sounds = new string[files.Length];

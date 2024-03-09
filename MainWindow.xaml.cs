@@ -33,11 +33,12 @@ namespace AudioPlayer
         public void InitializeSound()
         {
             timer = new DispatcherTimer();
+            timer.Tick += timer_Tick;
             audioPlayer = new MusicPlayer();
             mediaPlayer = new MediaPlayer();
             VolumeSlider.Value = 50;
             mediaPlayer.Volume = VolumeSlider.Value;
-            //SongParametrs();
+            mediaPlayer.MediaOpened += MediaPlayer_MediaOpened;
         }
 
         public void InitializeSongs() => _songs = audioPlayer.GetSongs(MusicDirectory.GetFilesInMusicDirectory());
@@ -105,6 +106,7 @@ namespace AudioPlayer
         {
             ChangePlayerStatus(PlayerStatus.Play);
             currentsongId = audioPlayer.PlayNext(currentsongId, _songs, mediaPlayer);
+
             SongParametrs();
         }
         /// <summary>
@@ -116,6 +118,7 @@ namespace AudioPlayer
         {
             ChangePlayerStatus(PlayerStatus.Play);
             currentsongId = audioPlayer.PlayPrevios(currentsongId, _songs, mediaPlayer);
+
             SongParametrs();
         }
 
@@ -127,14 +130,23 @@ namespace AudioPlayer
         /// Настройки песни, вкл. при новой
         /// </summary>
         private void SongParametrs()
-        {
-            //DispatcherTimer timer = new DispatcherTimer();
+        {          
             timer.Interval = TimeSpan.FromSeconds(1);
-            timer.Tick += timer_Tick;
-            timer.Start();
 
-            SongName.Text = GetSongName.GetNameOfSong(currentsongId);
+            if(!timer.IsEnabled)
+                timer.Start();
+           
+            MusicSlider.Value = 0;
+            SongName.Text = GetSongName.GetNameOfSong(currentsongId);           
+        }
 
+        private void MediaPlayer_MediaOpened(object sender, EventArgs e)
+        {          
+            MusicSlider.IsEnabled = true;
+            MusicSlider.Maximum = mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
+            MusicSlider.Visibility = Visibility.Visible;
+            MusicSlider.TickFrequency = 60 / mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
+            //MessageBox.Show(MusicSlider.TickFrequency.ToString());
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -143,51 +155,58 @@ namespace AudioPlayer
             {
                 StartTimer.Text = mediaPlayer.Position.ToString(@"mm\:ss");
                 EndTimer.Text = mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss");
+
+                //MusicSlider.Value += 0.5;
+                MusicSlider.Value += 1;
             }
             else
                 SongName.Text = "No song selected...";
 
             if (mediaPlayer.NaturalDuration.HasTimeSpan && (mediaPlayer.Position == mediaPlayer.NaturalDuration.TimeSpan))
             {
-                if (statusSong == StatusSong.RepeatSong)
+                try
                 {
-                    currentsongId = audioPlayer.Play(currentsongId, _songs, mediaPlayer);
-                    SongName.Text = GetSongName.GetNameOfSong(currentsongId);
-                }
-                else if (statusSong == StatusSong.RepeatPlaylist)
-                {
-                    currentsongId = audioPlayer.PlayNext(currentsongId, _songs, mediaPlayer);
-                    SongName.Text = GetSongName.GetNameOfSong(currentsongId);
-                }
-                else if (statusSong == StatusSong.Standart)
-                {
-                    if (currentsongId == _songs.Length - 1)
+                    if (statusSong == StatusSong.RepeatSong)
                     {
-                        mediaPlayer.Close();
-                        SongName.Text = "Playlist is over";
-
-                        ChangePlayerStatus(PlayerStatus.Play);
+                        currentsongId = audioPlayer.Play(currentsongId, _songs, mediaPlayer);
+                        SongParametrs();
                     }
-                    else
+                    else if (statusSong == StatusSong.RepeatPlaylist)
                     {
                         currentsongId = audioPlayer.PlayNext(currentsongId, _songs, mediaPlayer);
-                        SongName.Text = GetSongName.GetNameOfSong(currentsongId);
+                        SongParametrs();
                     }
-                }
-                else if (statusSong == StatusSong.Random)
-                {
-                    Random rnd = new Random();
-                    int newsongId;
-
-                    do
+                    else if (statusSong == StatusSong.Standart)
                     {
-                        newsongId = rnd.Next(0, _songs.Length);
-                    }
-                    while (newsongId == currentsongId);
+                        if (currentsongId == _songs.Length - 1)
+                        {
+                            mediaPlayer.Close();
+                            SongName.Text = "Playlist is over";
 
-                    currentsongId = audioPlayer.Play(newsongId, _songs, mediaPlayer);
-                    SongName.Text = GetSongName.GetNameOfSong(currentsongId);
+                            ChangePlayerStatus(PlayerStatus.Play);
+                        }
+                        else
+                        {
+                            currentsongId = audioPlayer.PlayNext(currentsongId, _songs, mediaPlayer);
+                            SongParametrs();
+                        }
+                    }
+                    else if (statusSong == StatusSong.Random)
+                    {
+                        Random rnd = new Random();
+                        int newsongId;
+
+                        do
+                        {
+                            newsongId = rnd.Next(0, _songs.Length);
+                        }
+                        while (newsongId == currentsongId);
+
+                        currentsongId = audioPlayer.Play(newsongId, _songs, mediaPlayer);
+                        SongParametrs();
+                    }
                 }
+                catch(Exception ex) {MessageBox.Show(ex.Message); }
             }
         }
 
@@ -241,7 +260,25 @@ namespace AudioPlayer
                 Stop.IsEnabled = false;
             }
         }
+        private void MusicSlider_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
+        {
+            mediaPlayer.Stop();
+            timer.Stop();
+            StartTimer.Text = mediaPlayer.Position.ToString(@"mm\:ss");
+            //currentPosition = TimeSpan.FromSeconds(MusicSlider.Value);
 
+            ChangePlayerStatus(PlayerStatus.Pause);
+        }
+
+        private void MusicSlider_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+        {
+            timer.Start();
+            currentPosition = TimeSpan.FromSeconds(MusicSlider.Value);
+            currentsongId = audioPlayer.Play(currentsongId, _songs, mediaPlayer, currentPosition);
+            StartTimer.Text = mediaPlayer.Position.ToString(@"mm\:ss");
+
+            ChangePlayerStatus(PlayerStatus.Play);
+        }
     }
 
     public enum StatusSong
