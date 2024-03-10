@@ -18,6 +18,7 @@ namespace AudioPlayer
         MediaPlayer mediaPlayer;
         string[] _songs;
         StatusSong statusSong = StatusSong.Standart;
+        PlayerStatus _playerStatus = PlayerStatus.Pause;
         DispatcherTimer timer;
 
         public MainWindow()
@@ -68,6 +69,7 @@ namespace AudioPlayer
                 currentsongId = audioPlayer.Play(currentsongId, _songs, mediaPlayer, currentPosition);
 
             SongParametrs();
+            MusicSlider.Value = currentPosition.Seconds;
 
             ChangePlayerStatus(PlayerStatus.Play);
         }
@@ -81,6 +83,7 @@ namespace AudioPlayer
             currentPosition = mediaPlayer.Position;
             mediaPlayer.Stop();
             mediaPlayer.Position = currentPosition;
+            //MusicSlider.Value = currentPosition.Seconds;
 
             ChangePlayerStatus(PlayerStatus.Pause);
         }
@@ -144,7 +147,8 @@ namespace AudioPlayer
                 EndTimer.Text = mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss");
 
                 //MusicSlider.Value += 0.5;
-                MusicSlider.Value += 1;
+                if(_playerStatus == PlayerStatus.Play)
+                    MusicSlider.Value += 1;
             }
             else
                 SongName.Text = "No song selected...";
@@ -239,7 +243,8 @@ namespace AudioPlayer
 
         void ChangePlayerStatus(PlayerStatus playerStatus)
         {
-            if (playerStatus == PlayerStatus.Play)
+            _playerStatus = playerStatus;
+            if (_playerStatus == PlayerStatus.Play)
             {
                 Play.Visibility = Visibility.Hidden;
                 Play_Image.Visibility = Visibility.Hidden;
@@ -265,7 +270,6 @@ namespace AudioPlayer
             mediaPlayer.Stop();
             timer.Stop();
             StartTimer.Text = mediaPlayer.Position.ToString(@"mm\:ss");
-            //currentPosition = TimeSpan.FromSeconds(MusicSlider.Value);
 
             ChangePlayerStatus(PlayerStatus.Pause);
         }
