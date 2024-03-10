@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AudioPlayer"
         mc:Ignorable="d"
-        Title="SongListWindow" Height="400" Width="500">
+        Title="SongListWindow" Height="400" Width="500" Icon="/Pictures/library.png" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
     <Grid>
         <Label Content="List of Songs" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="72"/>
         <ListBox Name="SongsList" Margin="10,41,10,10" MouseLeftButtonUp="SongsList_MouseLeftButtonUp"/>

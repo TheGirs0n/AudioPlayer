@@ -5,57 +5,66 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AudioPlayer"
         mc:Ignorable="d"
-        Title="DKNW" Height="140" Width="500" ResizeMode="NoResize" SizeToContent="WidthAndHeight" Icon="/Pictures/icon.png">
+        Title="DKNW" ResizeMode="NoResize" Icon="/Pictures/icon.png" Width="500" Height="250" VerticalAlignment="Center" HorizontalAlignment="Center">
     <Grid ShowGridLines="True">
-        <TextBox Name = "SongName" Margin = "129,23,0,76" BorderThickness = "0,0,0,0" Height = "25" Width = "250" HorizontalAlignment = "Left" FontSize = "10" IsReadOnly="True">Play something!</TextBox>
-        <Button Name = "Play" Margin = "15,55,434,19" Height = "50" Click = "PlayButton_Click" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}">
+        <TextBox Name = "SongName" Margin = "85,9,0,0" BorderThickness = "0,0,0,0" Height = "25" Width = "250" HorizontalAlignment = "Left" FontSize = "10" IsReadOnly="True" VerticalAlignment="Top">Play something!</TextBox>
+        <Button Name = "Play" Height = "50" Click = "PlayButton_Click" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,43,0,0">
             <Button.ToolTip>
                 <ToolTip>To play music</ToolTip>
             </Button.ToolTip>
-            <Image Name="Play_Image" Source = "/Pictures/play.png" Width="46" Height="46" AutomationProperties.HelpText="To play/stop music" Opacity="0.75"/>
+            <Image Name="Play_Image" Source = "/Pictures/play.png" Width="46" Height="46" AutomationProperties.HelpText="To play/stop music" Opacity="0.75" VerticalAlignment="Center" HorizontalAlignment="Left"/>
         </Button>
-        <Button Name = "Stop" Margin = "15,55,434,19" Height = "50" Click = "StopButton_Click" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" IsEnabled="False" Visibility="Hidden">
+        <Button Name = "Stop" Margin = "10,43,0,0" Height = "50" Click = "StopButton_Click" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" IsEnabled="False" Visibility="Hidden" VerticalAlignment="Top" HorizontalAlignment="Left">
             <Button.ToolTip>
                 <ToolTip>To stop music</ToolTip>
             </Button.ToolTip>
             <Image Name="Stop_Image" Source = "/Pictures/pause.png" Width="46" Height="46" AutomationProperties.HelpText="To play/stop music" IsEnabled="False" Visibility="Hidden" Opacity="0.75"/>
         </Button>
-        <Button Name = "PreviosSong" Margin = "200,80,275,19" Width = "25" Height = "25" Click = "PreviosSong_Click" Foreground="{x:Null}" Background="{x:Null}" BorderBrush="{x:Null}" AutomationProperties.HelpText="Play previos song">
+        <Button Name = "PreviosSong" Margin="150,65,0,0" Width = "25" Height = "25" Click = "PreviosSong_Click" Foreground="{x:Null}" Background="{x:Null}" BorderBrush="{x:Null}" AutomationProperties.HelpText="Play previos song" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Button.ToolTip>
                 <ToolTip>Play previos song!</ToolTip>
             </Button.ToolTip>
             <Image Source = "/Pictures/back.png" Width="20" Height="20" Opacity="0.8"/>
         </Button>
-        <Button Name = "NextSong" Margin = "275,80,200,19" Width = "25" Height = "25" Click = "NextSong_Click" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}">
+        <Button Name = "NextSong" Width = "25" Height = "25" Click = "NextSong_Click" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="240,65,0,0">
             <Button.ToolTip>
                 <ToolTip>Play next song!</ToolTip>
             </Button.ToolTip>
             <Image Source = "/Pictures/next.png" Width="20" Height="20" Opacity="0.8" AutomationProperties.HelpText="Play next song"/>
         </Button>
-        <Button Name = "RepeatStatus" Width = "25" Height = "25" Margin = "129,80,346,19" Foreground="{x:Null}" BorderBrush="{x:Null}" Opacity="0.8" AutomationProperties.HelpText="Straight, Repeat Playlist, RepeatThis" Click="RepeatStatus_Click" Background="{x:Null}">
+        <Button Name = "RepeatStatus" Width = "25" Height = "25" Margin = "85,65,0,0" Foreground="{x:Null}" BorderBrush="{x:Null}" Opacity="0.8" AutomationProperties.HelpText="Straight, Repeat Playlist, RepeatThis" Click="RepeatStatus_Click" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Button.ToolTip>
                 <ToolTip>Music goes Straight/RepeatPlaylist/RepeatThis</ToolTip>
             </Button.ToolTip>
-            <Image x:Name="RepeatImage" Source="/Pictures/fast-forward.png"></Image>
+            <Image x:Name="RepeatImage" Source="/Pictures/fast-forward.png" Width="22" Height="22"></Image>
         </Button>
-        <Button Name = "SongsList" Width = "25" Height = "25" Margin = "354,80,121,19" Click = "SongList_Click" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" Opacity="0.8">
+        <Button Name="SongsList" Width = "25" Height = "25" Click = "SongList_Click" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" Opacity="0.8" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="310,65,0,0" ScrollViewer.VerticalScrollBarVisibility="Disabled">
             <Button.ToolTip>
                 <ToolTip>Check you songlist!</ToolTip>
             </Button.ToolTip>
-            <Image Source="/Pictures/library.png" Width="20" AutomationProperties.HelpText="Get you song list!"></Image>
+            <Image Source="/Pictures/library.png" Width="23" AutomationProperties.HelpText="Get you song list!" VerticalAlignment="Center" HorizontalAlignment="Center" Height="23"/>
         </Button>
-        <Button Name = "AddNewSong" Width = "25" Height = "25" Margin = "15,10,460,89" Click = "AddNewSong_Click" Opacity="0.8" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}">
+        <Button Name = "AddNewSong" Width = "25" Height = "25" Click = "AddNewSong_Click" Opacity="0.8" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="15,10,0,0">
             <Button.ToolTip>
                 <ToolTip>Add new songs!</ToolTip>
             </Button.ToolTip>
-            <Image Source="/Pictures/plussound.png" Height="25" Width="25"></Image>
+            <Image Source="/Pictures/plussound.png" Height="25" Width="25" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </Button>
-        <TextBlock Name = "StartTimer" Margin="129,53,341,61" Height="10" Width="30" FontSize="9" HorizontalAlignment="Left"/>
-        <TextBlock Name = "EndTimer" Margin="0,53,121,61" Width="30" Height="10" FontSize="9" HorizontalAlignment="Right" TextAlignment="Right" />
-        <StatusBar Name = "SongTimeLine" Margin = "129,65,121,49" Height = "10" Width = "250" Background="Black" Opacity="0.8">
+        <TextBlock Name = "StartTimer" Margin="85,35,0,0" Height="10" Width="30" FontSize="9" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBlock Name = "EndTimer" Width="30" Height="10" FontSize="9" HorizontalAlignment="Left" TextAlignment="Right" VerticalAlignment="Top" Margin="305,35,0,0" />
+        <StatusBar Name = "SongTimeLine" Height = "10" Width = "250" Background="Black" Opacity="0.8" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="85,50,0,0">
             <Slider x:Name="MusicSlider" Width="244" Height="4" AutoToolTipPlacement="TopLeft" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}" Thumb.DragStarted="MusicSlider_DragStarted" Thumb.DragCompleted="MusicSlider_DragCompleted" FontSize="7" Opacity="0.5" Focusable="False" IsEnabled="False" Visibility="Hidden"/>
         </StatusBar>
-        <Image Name = "SoundPic" Margin="435,40,45,64" Width="20" Height="20" Source="/Pictures/sound.png" Opacity="0.8"></Image>
-        <Slider Name = "VolumeSlider" ValueChanged = "VolumeSlider_ValueChanged" Margin="400,60,10,0" AutoToolTipPlacement="TopLeft" Height="20" RenderTransformOrigin="0.492,0.68" VerticalAlignment="Top" Maximum="100"/>
+        <Image Name = "SoundPic" Width="20" Height="20" Source="/Pictures/sound.png" Opacity="0.8" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,69,0"/>
+        <Slider Name = "VolumeSlider" ValueChanged = "VolumeSlider_ValueChanged" AutoToolTipPlacement="TopLeft" Height="20" RenderTransformOrigin="0.492,0.68" VerticalAlignment="Top" Maximum="100" Width="100" HorizontalAlignment="Right" Margin="0,45,29,0"/>
+        <ListBox Name="ListOfSongs" MouseLeftButtonUp="SongsList_MouseLeftButtonUp" FontSize="10" Background="#FF333333" VerticalAlignment="Top" HorizontalAlignment="Center" Width="470" Margin="0,105,0,0" Height="100" ScrollViewer.VerticalScrollBarVisibility="Auto" BorderBrush="#FF4464C5" Foreground="White">
+            <ListBox.ItemContainerStyle>
+                <Style>
+                    <Setter Property="ListBoxItem.Background" Value="#FF3A395F"/>
+                    <Setter Property="ListBoxItem.Margin" Value="3"/>
+                    <Setter Property="ListBoxItem.Padding" Value="3"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
     </Grid>
 </Window>

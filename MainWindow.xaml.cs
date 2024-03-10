@@ -1,8 +1,5 @@
 ﻿using AudioPlayer.CS_Files;
 using System;
-using System.Diagnostics.Eventing.Reader;
-using System.IO;
-using System.Media;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -28,6 +25,7 @@ namespace AudioPlayer
             InitializeComponent();
             InitializeSound();
             InitializeSongs();
+            LoadSongList();
         }
 
         public void InitializeSound()
@@ -42,6 +40,20 @@ namespace AudioPlayer
         }
 
         public void InitializeSongs() => _songs = audioPlayer.GetSongs(MusicDirectory.GetFilesInMusicDirectory());
+        private void MediaPlayer_MediaOpened(object sender, EventArgs e)
+        {          
+            MusicSlider.IsEnabled = true;
+            MusicSlider.Maximum = mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
+            MusicSlider.Visibility = Visibility.Visible;
+            MusicSlider.TickFrequency = 60 / mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
+        }
+
+        void LoadSongList()
+        {
+            string[] _songs = SongList.GetSongList();
+            for (int i = 0; i < _songs.Length; i++)
+                ListOfSongs.Items.Add(_songs[i]);
+        }
 
         /// <summary>
         /// Воспроизведение
@@ -73,31 +85,6 @@ namespace AudioPlayer
             ChangePlayerStatus(PlayerStatus.Pause);
         }
         /// <summary>
-        /// Добавление новых песен (.mp3)
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void AddNewSong_Click(object sender, RoutedEventArgs e)
-        {
-            AddNewSongs newSongs = new AddNewSongs();
-            string[] songs = newSongs.GetFiles();
-
-            if (songs.Length > 0)
-                newSongs.SaveFiles(songs);
-
-            _songs = SongList.GetSongList();
-        }
-        /// <summary>
-        /// Список песен
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SongList_Click(object sender, RoutedEventArgs e)
-        {
-            SongListWindow songListWindow = new SongListWindow();
-            songListWindow.Show();
-        }
-        /// <summary>
         /// Следующая песня с текущими настройками повтора
         /// </summary>
         /// <param name="sender"></param>
@@ -121,32 +108,32 @@ namespace AudioPlayer
 
             SongParametrs();
         }
-
-        private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        /// <summary>
+        /// Добавление новых песен (.mp3)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AddNewSong_Click(object sender, RoutedEventArgs e)
         {
-            mediaPlayer.Volume = (double)VolumeSlider.Value / 100;
+            AddNewSongs newSongs = new AddNewSongs();
+            string[] songs = newSongs.GetFiles();
+
+            if (songs.Length > 0)
+                newSongs.SaveFiles(songs);
+
+            _songs = SongList.GetSongList();
         }
         /// <summary>
-        /// Настройки песни, вкл. при новой
+        /// Список песен
         /// </summary>
-        private void SongParametrs()
-        {          
-            timer.Interval = TimeSpan.FromSeconds(1);
-
-            if(!timer.IsEnabled)
-                timer.Start();
-           
-            MusicSlider.Value = 0;
-            SongName.Text = GetSongName.GetNameOfSong(currentsongId);           
-        }
-
-        private void MediaPlayer_MediaOpened(object sender, EventArgs e)
-        {          
-            MusicSlider.IsEnabled = true;
-            MusicSlider.Maximum = mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
-            MusicSlider.Visibility = Visibility.Visible;
-            MusicSlider.TickFrequency = 60 / mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
-            //MessageBox.Show(MusicSlider.TickFrequency.ToString());
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SongList_Click(object sender, RoutedEventArgs e)
+        {
+            if (ListOfSongs.Visibility == Visibility.Visible)
+                ListOfSongs.Visibility = Visibility.Hidden;
+            else if(ListOfSongs.Visibility == Visibility.Hidden)
+                ListOfSongs.Visibility = Visibility.Visible;
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -209,7 +196,20 @@ namespace AudioPlayer
                 catch(Exception ex) {MessageBox.Show(ex.Message); }
             }
         }
+        /// <summary>
+        /// Настройки песни, вкл. при новой
+        /// </summary>
 
+        private void SongParametrs()
+        {          
+            timer.Interval = TimeSpan.FromSeconds(1);
+
+            if(!timer.IsEnabled)
+                timer.Start();
+           
+            MusicSlider.Value = 0;
+            SongName.Text = GetSongName.GetNameOfSong(currentsongId);           
+        }
         private void RepeatStatus_Click(object sender, RoutedEventArgs e)
         {
             BitmapImage[] imageSource = new BitmapImage[4]
@@ -278,6 +278,22 @@ namespace AudioPlayer
             StartTimer.Text = mediaPlayer.Position.ToString(@"mm\:ss");
 
             ChangePlayerStatus(PlayerStatus.Play);
+        }
+
+        private void SongsList_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (ListOfSongs.SelectedItem != null)
+            {
+                var li = (string)ListOfSongs.Items[ListOfSongs.SelectedIndex];
+                MessageBox.Show((string)li);
+
+                currentsongId = audioPlayer.Play(ListOfSongs.SelectedIndex, _songs, mediaPlayer);
+                SongParametrs();
+            }
+        }
+        private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            mediaPlayer.Volume = (double)VolumeSlider.Value / 100;
         }
     }
 
