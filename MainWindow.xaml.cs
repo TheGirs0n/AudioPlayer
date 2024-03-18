@@ -20,6 +20,7 @@ namespace AudioPlayer
         StatusSong statusSong = StatusSong.Standart;
         PlayerStatus _playerStatus = PlayerStatus.Pause;
         DispatcherTimer timer;
+        public event EventHandler ThresholdReached;
 
         public MainWindow()
         {
@@ -31,6 +32,7 @@ namespace AudioPlayer
 
         public void InitializeSound()
         {
+            
             timer = new DispatcherTimer();
             timer.Tick += timer_Tick;
             audioPlayer = new MusicPlayer();
@@ -134,9 +136,15 @@ namespace AudioPlayer
         private void SongList_Click(object sender, RoutedEventArgs e)
         {
             if (ListOfSongs.Visibility == Visibility.Visible)
+            {
                 ListOfSongs.Visibility = Visibility.Hidden;
-            else if(ListOfSongs.Visibility == Visibility.Hidden)
+                ListOfSongs.Items.Clear();
+            }
+            else if (ListOfSongs.Visibility == Visibility.Hidden)
+            {
+                LoadSongList();
                 ListOfSongs.Visibility = Visibility.Visible;
+            }
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -288,16 +296,30 @@ namespace AudioPlayer
         {
             if (ListOfSongs.SelectedItem != null)
             {
-                var li = (string)ListOfSongs.Items[ListOfSongs.SelectedIndex];
-                MessageBox.Show((string)li);
-
                 currentsongId = audioPlayer.Play(ListOfSongs.SelectedIndex, _songs, mediaPlayer);
                 SongParametrs();
+                ChangePlayerStatus(PlayerStatus.Play);
             }
         }
         private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             mediaPlayer.Volume = (double)VolumeSlider.Value / 100;
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            MusicPlayerData musicPlayerData = new MusicPlayerData(songId: currentsongId, songName: GetSongName.GetNameOfSong(currentsongId), songPosition: currentPosition);
+            
+            musicPlayerData.SerializeJSONAsync(musicPlayerData);
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            MusicPlayerData musicPlayerData = new MusicPlayerData().DeserializeJSON();
+            currentsongId = musicPlayerData.songId;
+            SongName.Text = musicPlayerData.songName;
+            currentPosition = musicPlayerData.songPosition;
+            MusicSlider.Value = currentPosition.TotalSeconds;
         }
     }
 

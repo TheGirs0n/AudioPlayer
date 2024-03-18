@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AudioPlayer"
         mc:Ignorable="d"
-        Title="DKNW" ResizeMode="NoResize" Icon="/Pictures/icon.png" Width="500" Height="250" VerticalAlignment="Center" HorizontalAlignment="Center">
+        Title="DKNW" ResizeMode="NoResize" Icon="/Pictures/icon.png" Width="500" Height="250" VerticalAlignment="Center" HorizontalAlignment="Center" Closed="Window_Closed" Loaded="Window_Loaded">
     <Grid ShowGridLines="True">
         <TextBox Name = "SongName" Margin = "85,9,0,0" BorderThickness = "0,0,0,0" Height = "25" Width = "250" HorizontalAlignment = "Left" FontSize = "10" IsReadOnly="True" VerticalAlignment="Top">Play something!</TextBox>
         <Button Name = "Play" Height = "50" Click = "PlayButton_Click" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,43,0,0">
