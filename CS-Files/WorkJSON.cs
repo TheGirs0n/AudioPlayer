@@ -1,24 +1,20 @@
 ﻿using System;
-using System.Text.Json;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
+using System.Text.Json;
 
 namespace AudioPlayer.CS_Files
 {
     public class MusicPlayerData
     {
-        public int songId { get; set; }
-        public string songName { get; set; }
-        public TimeSpan songPosition { get; set; }
+        public int _SongId { get; }
+        public string _SongName { get;  }
+        public TimeSpan _SongPosition { get;  }
         public MusicPlayerData() { }
         public MusicPlayerData(int songId, string songName, TimeSpan songPosition)
         {
-            this.songId = songId;
-            this.songName = songName;
-            this.songPosition = songPosition;
+            this._SongId = songId;
+            this._SongName = songName;
+            this._SongPosition = songPosition;
         }
        
         public void SerializeJSONAsync(MusicPlayerData musicPlayerData)

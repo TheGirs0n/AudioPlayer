@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AudioPlayer.CS_Files
 {
@@ -23,8 +19,7 @@ namespace AudioPlayer.CS_Files
             {
                 if (subDirectorys[i].Name == "MusicList")
                 {
-                    musicDirectory = new DirectoryInfo(subDirectorys[i].FullName);
-                                     
+                    musicDirectory = new DirectoryInfo(subDirectorys[i].FullName);                              
                 }
             }
 

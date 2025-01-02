@@ -10,10 +10,12 @@ namespace AudioPlayer.CS_Files
     {
         public string[] GetFiles()
         {
-            var dialog = new OpenFileDialog();
-            dialog.DefaultExt = ".mp3";
-            dialog.Multiselect = true;
-            dialog.Filter = "Audio Formats|*.wav;*.flac;*.mp3;*.wma;";
+            var dialog = new OpenFileDialog
+            {
+                DefaultExt = ".mp3",
+                Multiselect = true,
+                Filter = "Audio Formats|*.wav;*.flac;*.mp3;*.wma;"
+            };
 
             string[] bufferSongs;
             bool? result = dialog.ShowDialog();
@@ -43,6 +45,7 @@ namespace AudioPlayer.CS_Files
 
             return bufferSongs;
         }
+
         public void SaveFiles(string[] files) //string[] files
         {
             DirectoryInfo musicDirectory = MusicDirectory.GetMusicDirectory();

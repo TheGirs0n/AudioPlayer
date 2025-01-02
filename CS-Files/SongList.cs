@@ -1,28 +1,24 @@
-﻿using System;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 
 namespace AudioPlayer.CS_Files
 {
     public class SongList
     {
-        private static string[] SongsList { get; set; }
-
-       // public void AddSongs(string[] songs) => SongsList = songs;
-
+        private static string[] _SongsList { get; set; }
+     
         public static string[] GetSongList()
         {
             FileInfo[] musics = MusicDirectory.GetFilesInMusicDirectory();
 
-            SongsList = new string[musics.Length];
+            _SongsList = new string[musics.Length];
 
             for (int j = 0; j < musics.Length; j++)
             {
-                SongsList[j] = musics[j].Name;
-                SongsList[j] = SongsList[j].Replace('_', ' ');
+                _SongsList[j] = musics[j].Name;
+                _SongsList[j] = _SongsList[j].Replace('_', ' ');
             }      
                         
-            return SongsList;
+            return _SongsList;
         }
     }    
 }
