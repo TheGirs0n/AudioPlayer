@@ -37,22 +37,19 @@ namespace AudioPlayer.CS_Files
 
         public int PlayNext(int currentsongId, string[] songs, MediaPlayer audioPlayer)
         {
-
             if (currentsongId == songs.Length - 1)
                 currentsongId = Play(0, songs, audioPlayer);
             else
                 currentsongId = Play(++currentsongId, songs, audioPlayer);
 
             if (currentsongId > songs.Length)
-                currentsongId = songs.Length - 1;
-            
+                currentsongId = songs.Length - 1;           
 
             return currentsongId;
         }
 
         public int PlayPrevios(int currentsongId, string[] songs, MediaPlayer audioPlayer)
         {
-
             if (currentsongId == 0)
                 currentsongId = Play(songs.Length - 1, songs, audioPlayer);
             else
@@ -61,7 +58,6 @@ namespace AudioPlayer.CS_Files
             if (currentsongId < 0)
                 currentsongId = 0;
             
-
             return currentsongId;
         }
     }

@@ -46,7 +46,7 @@ namespace AudioPlayer.CS_Files
             return bufferSongs;
         }
 
-        public void SaveFiles(string[] files) //string[] files
+        public void SaveFiles(string[] files)
         {
             DirectoryInfo musicDirectory = MusicDirectory.GetMusicDirectory();
             FileInfo[] fileInfo = new FileInfo[files.Length];

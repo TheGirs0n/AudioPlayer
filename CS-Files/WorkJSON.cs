@@ -6,15 +6,15 @@ namespace AudioPlayer.CS_Files
 {
     public class MusicPlayerData
     {
-        public int _SongId { get; }
-        public string _SongName { get;  }
-        public TimeSpan _SongPosition { get;  }
+        public int SongId { get; }
+        public string SongName { get;  }
+        public TimeSpan SongPosition { get;  }
         public MusicPlayerData() { }
         public MusicPlayerData(int songId, string songName, TimeSpan songPosition)
         {
-            this._SongId = songId;
-            this._SongName = songName;
-            this._SongPosition = songPosition;
+            this.SongId = songId;
+            this.SongName = songName;
+            this.SongPosition = songPosition;
         }
        
         public void SerializeJSONAsync(MusicPlayerData musicPlayerData)

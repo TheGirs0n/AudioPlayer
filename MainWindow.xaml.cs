@@ -1,5 +1,6 @@
 ﻿using AudioPlayer.CS_Files;
 using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -70,15 +71,20 @@ namespace AudioPlayer
         /// <param name="e"></param>
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_currentPosition == TimeSpan.Zero)
-                _currentsongId = _audioPlayer.Play(_currentsongId, _songs, _mediaPlayer);
+            if (_songs.Length != 0)
+            {
+                if (_currentPosition == TimeSpan.Zero)
+                    _currentsongId = _audioPlayer.Play(_currentsongId, _songs, _mediaPlayer);
+                else
+                    _currentsongId = _audioPlayer.Play(_currentsongId, _songs, _mediaPlayer, _currentPosition);
+
+                SongParametrs();
+                MusicSlider.Value = _currentPosition.Seconds;
+
+                ChangePlayerStatus(PlayerStatus.Play);
+            }
             else
-                _currentsongId = _audioPlayer.Play(_currentsongId, _songs, _mediaPlayer, _currentPosition);
-
-            SongParametrs();
-            MusicSlider.Value = _currentPosition.Seconds;
-
-            ChangePlayerStatus(PlayerStatus.Play);
+                SongName.Text = "No song to play...";
         }
         /// <summary>
         /// Стоп
@@ -87,11 +93,16 @@ namespace AudioPlayer
         /// <param name="e"></param>
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
-            _currentPosition = _mediaPlayer.Position;
-            _mediaPlayer.Stop();
-            _mediaPlayer.Position = _currentPosition;
+            if (_songs.Length != 0)
+            {
+                _currentPosition = _mediaPlayer.Position;
+                _mediaPlayer.Stop();
+                _mediaPlayer.Position = _currentPosition;
 
-            ChangePlayerStatus(PlayerStatus.Pause);
+                ChangePlayerStatus(PlayerStatus.Pause);
+            }
+            else
+                SongName.Text = "No song to pause...";
         }
         /// <summary>
         /// Следующая песня с текущими настройками повтора
@@ -100,10 +111,15 @@ namespace AudioPlayer
         /// <param name="e"></param>
         private void NextSong_Click(object sender, RoutedEventArgs e)
         {
-            ChangePlayerStatus(PlayerStatus.Play);
-            _currentsongId = _audioPlayer.PlayNext(_currentsongId, _songs, _mediaPlayer);
+            if (_songs.Length != 0)
+            {
+                ChangePlayerStatus(PlayerStatus.Play);
+                _currentsongId = _audioPlayer.PlayNext(_currentsongId, _songs, _mediaPlayer);
 
-            SongParametrs();
+                SongParametrs();
+            }
+            else
+                SongName.Text = "No song to go forward...";
         }
         /// <summary>
         /// Предыдущая песня с текущими настройками повтора
@@ -112,10 +128,15 @@ namespace AudioPlayer
         /// <param name="e"></param>
         private void PreviosSong_Click(object sender, RoutedEventArgs e)
         {
-            ChangePlayerStatus(PlayerStatus.Play);
-            _currentsongId = _audioPlayer.PlayPrevios(_currentsongId, _songs, _mediaPlayer);
+            if (_songs.Length != 0)
+            {
+                ChangePlayerStatus(PlayerStatus.Play);
+                _currentsongId = _audioPlayer.PlayPrevios(_currentsongId, _songs, _mediaPlayer);
 
-            SongParametrs();
+                SongParametrs();
+            }
+            else
+                SongName.Text = "No song to go back...";
         }
         /// <summary>
         /// Добавление новых песен (.mp3)
@@ -212,12 +233,22 @@ namespace AudioPlayer
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            MusicPlayerData musicPlayerData = new MusicPlayerData().DeserializeJSON();
+            if (File.Exists("MusicData.json") == true)
+            {
+                MusicPlayerData musicPlayerData = new MusicPlayerData().DeserializeJSON();
 
-            _currentsongId = musicPlayerData._SongId;
-            SongName.Text = musicPlayerData._SongName;
-            _currentPosition = musicPlayerData._SongPosition;
-            MusicSlider.Value = _currentPosition.TotalSeconds;
+                _currentsongId = musicPlayerData.SongId;
+                SongName.Text = musicPlayerData.SongName;
+                _currentPosition = musicPlayerData.SongPosition;
+                MusicSlider.Value = _currentPosition.TotalSeconds;
+            }
+            else
+            {
+                _currentsongId = 0;
+                SongName.Text = "No start song...";
+                _currentPosition = new TimeSpan(0, 0, 0);
+                MusicSlider.Value = 0;
+            }
         }
         private void Timer_Tick(object sender, EventArgs e)
         {

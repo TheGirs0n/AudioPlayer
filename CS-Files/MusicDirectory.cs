@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 
 namespace AudioPlayer.CS_Files
 {
@@ -13,7 +14,18 @@ namespace AudioPlayer.CS_Files
 
             DirectoryInfo[] subDirectorys = mainDirectory.GetDirectories();
 
-            DirectoryInfo musicDirectory = new DirectoryInfo(subDirectorys[0].Name);
+            bool isMusicListExists = subDirectorys.ToList().Exists(dir => dir.Name == "MusicList");
+
+            DirectoryInfo musicDirectory;
+            if (isMusicListExists)
+            {
+                musicDirectory = new DirectoryInfo(subDirectorys.Where(dir => dir.Name == "MusicList").First().Name);
+            }
+            else
+            {
+                mainDirectory.CreateSubdirectory("MusicList");
+                musicDirectory = new DirectoryInfo(subDirectorys.Where(dir => dir.Name == "MusicList").First().Name);
+            }
 
             for (int i = 0; i < subDirectorys.Length; i++)
             {
